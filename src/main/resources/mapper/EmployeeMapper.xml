@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.springboot.cache.mapper.EmployeeMapper">
+
+    <resultMap type="cn.springboot.cache.entity.Employee" id="EmployeeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="lastname" column="lastName" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="INTEGER"/>
+        <result property="dId" column="d_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EmployeeMap">
+        select
+          id, lastName, email, gender, d_id
+        from spring_cache.employee
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EmployeeMap">
+        select
+          id, lastName, email, gender, d_id
+        from spring_cache.employee
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EmployeeMap">
+        select
+          id, lastName, email, gender, d_id
+        from spring_cache.employee
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="lastname != null and lastname != ''">
+                and lastName = #{lastname}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="dId != null">
+                and d_id = #{dId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into spring_cache.employee(lastName, email, gender, d_id)
+        values (#{lastname}, #{email}, #{gender}, #{dId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update spring_cache.employee
+        <set>
+            <if test="lastname != null and lastname != ''">
+                lastName = #{lastname},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="dId != null">
+                d_id = #{dId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from spring_cache.employee where id = #{id}
+    </delete>
+
+</mapper>
