@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.springboot.cache.mapper.DepartmentMapper">
+<mapper namespace="cn.springboot.hrm.mapper.DepartmentMapper">
 
-    <resultMap type="cn.springboot.cache.entity.Department" id="DepartmentMap">
-        <result property="id" column="id" jdbcType="INTEGER"/>
+    <resultMap type="cn.springboot.hrm.entity.Department" id="DepartmentMap">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="departmentno" column="departmentNo" jdbcType="VARCHAR"/>
         <result property="departmentname" column="departmentName" jdbcType="VARCHAR"/>
     </resultMap>
+    <!--获取记录总数-->
+    <select id="getTotalCount" resultType="int">
+        select count(*) from department
+    </select>
+
+    <!--获取所有部门名称-->
+    <select id="getDepartmentName" resultMap="DepartmentMap">
+        select d.departmentName from department d
+    </select>
 
     <!--查询单个-->
     <select id="queryById" resultMap="DepartmentMap">
         select
-          id, departmentName
-        from spring_cache.department
+          id, departmentNo, departmentName
+        from hrm.department
         where id = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="DepartmentMap">
         select
-          id, departmentName
-        from spring_cache.department
-        limit #{offset}, #{limit}
+          id, departmentNo, departmentName
+        from hrm.department
+        limit #{startIndex}, #{pageSize}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="DepartmentMap">
         select
-          id, departmentName
-        from spring_cache.department
+          id, departmentNo, departmentName
+        from hrm.department
         <where>
             <if test="id != null">
                 and id = #{id}
+            </if>
+            <if test="departmentno != null and departmentno != ''">
+                and departmentNo = #{departmentno}
             </if>
             <if test="departmentname != null and departmentname != ''">
                 and departmentName = #{departmentname}
@@ -40,14 +53,17 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into spring_cache.department(departmentName)
-        values (#{departmentname})
+        insert into hrm.department(departmentNo, departmentName)
+        values (#{departmentno}, #{departmentname})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update spring_cache.department
+        update hrm.department
         <set>
+            <if test="departmentno != null and departmentno != ''">
+                departmentNo = #{departmentno},
+            </if>
             <if test="departmentname != null and departmentname != ''">
                 departmentName = #{departmentname},
             </if>
@@ -57,7 +73,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from spring_cache.department where id = #{id}
+        delete from hrm.department where id = #{id}
     </delete>
 
 </mapper>

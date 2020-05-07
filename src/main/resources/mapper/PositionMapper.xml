@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.springboot.hrm.mapper.PositionMapper">
+
+    <resultMap type="cn.springboot.hrm.entity.Position" id="PositionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="departmentobj" column="departmentObj" jdbcType="VARCHAR"/>
+        <result property="positionname" column="positionName" jdbcType="VARCHAR"/>
+        <result property="basesalary" column="baseSalary" jdbcType="OTHER"/>
+        <association property="department" javaType="cn.springboot.hrm.entity.Department">
+            <id property="id" column="id" />
+            <result property="departmentno" column="departmentNo" jdbcType="VARCHAR"/>
+            <result property="departmentname" column="departmentName" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--根据所属部门编号获取部门名称-->
+    <select id="getPositionObjByDepartmentName" resultMap="PositionMap">
+        select d.departmentNo from department d
+        where d.departmentName = #{departmentName}
+    </select>
+
+    <!--获取部门名称-->
+    <select id="findPositionName" resultMap="PositionMap">
+        select p.positionName from position p
+    </select>
+
+    <!--获取职位所属部门编号和已有的部门编号相对应的记录数-->
+    <select id="getTotalCount" resultType="int">
+        select count(*) from position p,department d where d.departmentNo = p.departmentObj
+    </select>
+
+    <!--根据id查询职位信息-->
+    <select id="queryById" resultMap="PositionMap">
+        select p.id, p.departmentObj, p.baseSalary, d.departmentName
+        from position p,department d
+        where d.departmentNo = p.departmentObj
+        and p.id = #{id}
+    </select>
+
+    <!--获取部门信息-->
+    <select id="findPositionObj" resultMap="PositionMap" >
+        select d.* from department d
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PositionMap">
+        select p.*,d.departmentName from position p,department d
+        where d.departmentNo = p.departmentObj limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PositionMap">
+        select
+          id, departmentObj, positionName, baseSalary
+        from hrm.position
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="departmentobj != null and departmentobj != ''">
+                and departmentObj = #{departmentobj}
+            </if>
+            <if test="positionname != null and positionname != ''">
+                and positionName = #{positionname}
+            </if>
+            <if test="basesalary != null">
+                and baseSalary = #{basesalary}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hrm.position(departmentObj, positionName, baseSalary)
+        values (#{departmentobj}, #{positionname}, #{basesalary})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hrm.position
+        <set>
+            <if test="departmentobj != null and departmentobj != ''">
+                departmentObj = #{departmentobj},
+            </if>
+            <if test="positionname != null and positionname != ''">
+                positionName = #{positionname},
+            </if>
+            <if test="basesalary != null">
+                baseSalary = #{basesalary},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hrm.position where id = #{id}
+    </delete>
+
+</mapper>

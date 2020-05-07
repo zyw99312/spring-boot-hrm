@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>添加职位</title>
+	<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+	<link rel="stylesheet" th:href="@{/css/add_General.css}">
+	<link rel="stylesheet" th:href="@{/Position/css/add_position.css}">
+</head>
+<body>
+<div class="main">
+<span class="lable">职位管理 --> 添加职位</span>
+	<h1>添加职位</h1>
+	<div class="add_box">
+	<form th:action="@{/Position/addPosition}" method="post">
+ 		<p>部　门:　<select name="departmentName">
+					<option  th:each="position:${db_list_position}" th:value="${position.getDepartment().departmentname}">
+						[[${position.getDepartment().departmentname}]]
+					</option>
+			</select>
+		</p>
+		<p>职　位:　<input type="text" id="positionName" name="positionName" required="required" placeholder="输入职位"/></p>
+		<p>工　资:　<input type="text" id="baseSalary" name="baseSalary" required="required" placeholder="输入基本工资"/></p>
+		<input style="margin-left: 85px;" type="submit" id="submit" name="submit" value="添　加">
+	</form>
+	</div>
+</div>
+<script th:src="@{webjars/jquery/3.5.0/jquery.min.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/layui/layui.all.js}"></script>
+<script th:src="@{/Position/js/add_position.js}"></script>
+</body>
+</html>

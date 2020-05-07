@@ -1,0 +1,38 @@
+
+body{
+    background: #393D49;
+    color: #fff;
+}
+.submit{
+    margin-left: 60px;
+}
+#submit{
+    width: 60px;
+    height: 30px;
+    background: #2F4056;
+}
+#submit:hover{
+    background:#aac5e7;
+}
+#reset{
+    width: 60px;
+    height: 30px;
+    background: #2F4056;
+}
+#reset:hover{
+    background: #aac5e7;
+}
+form{
+    padding-top: 200px;
+}
+.update_box{
+    width: 850px;
+    height: 500px;
+    border: 2px #aac5e7 solid;
+    border-radius: 5px;
+}
+.lable{
+    font-size: 13pt;
+    color:#fff;
+    margin-left:-650px;
+}

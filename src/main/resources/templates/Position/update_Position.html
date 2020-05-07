@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>职位修改</title>
+	<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+	<link rel="stylesheet" th:href="@{/css/update_General.css}">
+	<link rel="stylesheet" th:href="@{/Position/css/update_position.css}">
+</head>
+<body>
+<div class="main">
+	<span class="lable">职位管理 --> 职位修改</span>
+	<h1>职位修改</h1>
+<div class="update_box">
+	<form th:action="@{/Position/updatePosition}" method="post" th:each="position:${db_list_position}">
+		<input type="hidden" name="_method" value="PUT">
+		<p><input type="hidden" name="id" th:value="${position.id}"></p>
+		<p><input type="hidden"  id="departmentobj" name="departmentobj" th:value="${position.departmentobj}" /></p>
+		<p>部　门:　<input type="text" required="required" disabled="disabled" id="departmentname" name="departmentname" th:value="${position.getDepartment().departmentname}" /></p>
+ 		<p>职　位:　
+			<select name="positionName">
+				<option th:each="position_2:${db_list_position_2}" th:value="${position_2.positionname}">
+					[[${position_2.positionname}]]
+				</option>
+			</select>
+		</p>
+		<p>工　资:　<input type="text" id=basesalary name="basesalary" th:value="${position.basesalary}" required="required"/></p>
+		<p class="btn"><input style="margin-left: 85px;" type="submit" id="submit" name="submit" value="修　改">　
+		<input type="reset" id="reset" value="返　回" onclick="javascript:history.back(-1);"></p>
+	</form>
+</div>
+</div>
+<script th:src="@{webjars/jquery/3.5.0/jquery.min.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/layui/layui.all.js}"></script>
+<script th:src="@{/Position/js/update_position.js}"></script>
+</body>
+</html>

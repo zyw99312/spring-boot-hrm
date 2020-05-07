@@ -1,0 +1,29 @@
+/**
+ * @author  zyw
+ * @date  2020/5/7 15:25
+ * @version 1.0
+ */
+.errorInfo{
+  position: absolute;
+  top:50%;
+  left:50%;
+  -webkit-transform: translate(-50%,-50%);
+}
+body{
+  background: #393D49;
+  color:#aac5e7;
+  height:100%;
+  width:100%;
+}
+#error-icon {
+  margin-top: 100px;
+  text-align: center;
+}
+#error-icon i{
+  font-size: 100pt;
+  color: red;
+}
+span{
+  font-size: 25pt;
+  color: #FFFFFF;
+}

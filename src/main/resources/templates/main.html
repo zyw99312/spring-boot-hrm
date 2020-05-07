@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="icon" th:href="@{/images/favicon.ico}">
+    <title>zyw | 人事管理系统</title>
+<!--    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">-->
+    <style type="text/css">
+
+    </style>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <input type="hidden" id="basePath" th:value="${#httpServletRequest.getContextPath()}">
+    <div class="layui-header" style="height: 70px;">
+        <div class="layui-icon layui-icon-template-1 layui-logo" style="padding-top: 7px;font-size: 16pt">
+            　人事管理系统
+        </div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left" style="padding-top: 7px;">
+            <li class="layui-nav-item" id="qiandao"><a href="">签　到</a></li>
+            <li class="layui-nav-item" id="qingjia"><a href="">请　假</a></li>
+            <li class="layui-nav-item" style="width: 221.85px;padding: 0;margin:0;">
+                <input type="text" name="search" required lay-verify="required" placeholder="请输入想搜索的信息" autocomplete="off" style="display: inline;height: 23px; width: 150px" class="layui-input">　
+                <a href="javascript:;" class="layui-icon layui-icon-search" style="display: inline;height: 66.69px;"></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">　其它操作</a>
+                <dl class="layui-nav-child">
+                    <dd><a class="layui-icon layui-icon-help" href="javascript:;" id="help">　帮　助</a></dd>
+                    <dd><a class="layui-icon layui-icon-util" href="javascript:;" id="support">　技术支持</a></dd>
+                    <dd><a class="layui-icon layui-icon-tips" href="javascript:;" id="about">　关　于</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right" style="padding-top: 7px">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img" alt="头像"3>
+                    钟友维
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a class="layui-icon layui-icon-form" href="javascript:;" id="myInfo">　基本资料</a></dd>
+                    <dd><a class="layui-icon layui-icon-auz aq" href="javascript:;" id="mySecurity">　安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a class="layui-icon layui-icon layui-icon-logout logout" href="javascript:;">　注销</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black" style="margin-top: 10px;">
+        <div id="left" class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="layui-icon layui-icon-username a1" href="javascript:;">　管理员信息</a>
+                    <dl class="layui-nav-child">
+                        <dd class=""><a target="right-context" class="layui-icon layui-icon-username" th:href="@{/Admin/toAdd}">　添加账号</a></dd>
+                        <dd>
+                            <a class="layui-icon layui-icon-username" target="right-context" th:href="@{/Admin/queryAdmin/{currPageNo}(currPageNo=1)}">　账号管理</a></dd>
+                        <!--<a class="layui-icon layui-icon-username" target="right-context" th:href="@{/Admin/toQuery}">　账号管理</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="layui-icon layui-icon-group" href="javascript:;"> &nbsp;部门管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a class="layui-icon layui-icon-group" target="right-context" th:href="@{/Department/toAdd}">　新增部门</a></dd>
+                        <dd><a class="layui-icon layui-icon-group" target="right-context" th:href="@{/Department/queryDepartment/{currPageNo}(currPageNo=1)}">　部门管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="layui-icon layui-icon-user" href="javascript:;">　职位管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a class="layui-icon layui-icon-user" target="right-context" th:href="@{/Position/toAdd}">　新增职位</a></dd>
+                        <dd><a class="layui-icon layui-icon-user" target="right-context" th:href="@{/Position/queryPosition/{currPageNo}(currPageNo=1)}">　职位管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="layui-icon layui-icon-friends" href="javascript:;">　员工管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a class="layui-icon layui-icon-friends" target="right-context" th:href="@{/Employees/toAdd}">　新增员工</a></dd>
+                        <dd><a class="layui-icon layui-icon-friends" target="right-context" th:href="@{/Employees/queryEmployees/{currPageNo}(currPageNo=1)}">　员工管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a class="layui-icon layui-icon-notice" target="right-context" th:href="@{/development_info.html}">　公　告</a></li>
+                <li class="layui-nav-item"><a class="layui-icon layui-icon-download-circle" target="right-context" href="https://www.zdfans.com/">　下　载</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body layui-bg-cyan">
+        <div class="layui-bg-cyan">
+        <!-- 内容主体区域 -->
+        <!--<div style="padding: 15px;background: #778899;height: 620px">内容主体区域</div>-->
+        <iframe height="645px" width="100%" th:frameborder="0" name="right-context" th:src="@{/development_info.html}"
+                style="position: absolute;background: #778899;margin-top:11.5px;padding:0;display: block;">内容主体区域</iframe>
+    </div>
+    </div>
+    <div class="layui-footer layui-bg-black" style="text-align: center;padding: 0;">
+        <!-- 底部固定区域 -->
+        © Author：zyw　-　钟友维 | Alvi Zhong
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/layui/layui.all.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

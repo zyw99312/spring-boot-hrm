@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>部门信息</title>
+	<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+	<link rel="stylesheet" th:href="@{/css/update_General.css}">
+	<link rel="stylesheet" th:href="@{/Employees/css/query_employees.css}">
+</head>
+<body>
+<div class="main">
+	<input type="hidden" id="basePath" th:value="${#httpServletRequest.getContextPath()}">
+	<span class="lable">员工管理 --> 员工管理</span>
+<div class="update_box">
+	<table border="1" width="700px">
+	<caption style="font-size:18pt;font-weight:bold;margin-bottom:10px;">员　工　信　息</caption>
+		<tr>
+			<th>#</th> <!-- 标题行 -->
+			<th>编　号</th>
+			<th>职　位</th>
+			<th>姓　名</th>
+			<th>性　别</th>
+			<th>生　日</th>
+			<th>学　历</th>
+			<th>简　介</th>
+			<th>修　改</th>
+			<th>删　除</th>
+		</tr>		
+		<!--<c:forEach items="${db_list_employees}" var="employees">-->
+		<tr th:each="employess:${db_list_employees}">
+			<td>[[${employess.id}]]</td> <!-- 标题列 -->
+			<td>[[${employess.employeeno}]]</td>
+			<td>[[${employess.positionobj}]]</td>
+			<td>[[${employess.name}]]</td> <!-- 标题列 -->
+			<td>[[${employess.sex}]]</td>
+			<td>[[${employess.birthday}]]</td>
+			<td>[[${employess.schoolrecord}]]</td>
+			<td>[[${employess.employeedesc}]]</td>
+			<td><a th:href="@{/Employees/queryEmployeesById/}+${employess.id}" class="layui-icon layui-icon-edit"></a></td>
+			<td><a th:href="@{/Employees/deleteEmployees/}+${employess.id}" class="layui-icon layui-icon-delete deleteBtn"></a></td>
+		</tr>
+	</table>
+
+	<div class="page">
+		<div id="fenye"></div>
+	</div>
+</div>
+
+	<form id="deleteEmpForm" action="" method="POST">
+		<input type="hidden" name="_method" value="DELETE" >
+	</form>
+</div>
+<script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/layui/layui.all.js}"></script>
+<script th:src="@{/Employees/js/query_employees.js}"></script>
+<script type="text/javascript">
+	const basePath = $('#basePath').val();
+
+	layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+		const laydate = layui.laydate //日期
+				, laypage = layui.laypage //分页
+				, layer = layui.layer //弹层
+				, table = layui.table //表格
+				, carousel = layui.carousel //轮播
+				, upload = layui.upload //上传
+				, element = layui.element //元素操作
+				, slider = layui.slider; //滑块
+
+		$(function () {
+			//删除事件
+			$('.deleteBtn').click(function () {
+				layer.confirm('<span style="color: #000;">'+'确定删除记录吗？'+'</sapn>', {
+					btn: ['确定', '取消'] //可以无限个按钮
+				}, function () {
+					$("#deleteEmpForm").attr("action", $(".deleteBtn").attr("href")).submit();
+					layer.msg('<span style="color: #000;">'+'　删除成功！'+'</sapn>', {icon: 6});
+				}, function () {
+					layer.msg('<span style="color: #000;">'+'　　已取消！'+'</sapn>', {icon: 6});
+				});
+				return false;
+			});
+		});
+
+		//执行一个laypage实例
+		var a = laypage.render({
+			elem: 'fenye' //注意，这里的 test1 是 ID，不用加 # 号
+			,limit: 5
+			,theme: '#369'
+			,count: [[${totalCount}]] //数据总数，从服务端得到
+			,curr: [[${currPageNo}]] //当前页
+			,jump: function(obj, first){
+				if(!first){
+					window.location.replace(basePath+'/Employees/queryEmployees/'+obj.curr);
+					//如果不在首页，就跳转到当前页
+				}
+			}
+		});
+	});
+</script>
+</body>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.springboot.hrm.mapper.EmployeesMapper">
+
+    <resultMap type="cn.springboot.hrm.entity.Employees" id="EmployeesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="employeeno" column="employeeNo" jdbcType="VARCHAR"/>
+        <result property="positionobj" column="positionObj" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="VARCHAR"/>
+        <result property="schoolrecord" column="schoolRecord" jdbcType="VARCHAR"/>
+        <result property="employeedesc" column="employeeDesc" jdbcType="VARCHAR"/>
+
+        <association property="position" javaType="cn.springboot.hrm.entity.Position">
+            <id property="id" column="id" />
+            <result property="departmentobj" column="departmentObj" jdbcType="VARCHAR"/>
+            <result property="positionname" column="positionName" jdbcType="VARCHAR"/>
+            <result property="basesalary" column="baseSalary" jdbcType="DOUBLE"/>
+        </association>
+    </resultMap>
+    <!--获取记录总数-->
+    <select id="getTotalCount" resultType="int">
+        select count(*) from employees
+    </select>
+
+    <!--获取职位名称-->
+    <select id="getEmployeesObjByPositionName" resultMap="EmployeesMap">
+        select p.positionName
+        from position p
+        where
+        p.positionName = #{positionName}
+    </select>
+
+    <!--获取员工编号-->
+    <select id="findEmployeesNo" resultMap="EmployeesMap">
+        select e.*,p.positionName from employees e,position p
+    </select>
+
+    <!--获取已有的职位-->
+    <select id="findEmployeesObj" resultMap="EmployeesMap">
+        select p.* from position p
+    </select>
+
+
+
+    <!--根据 id 查询单个-->
+    <select id="queryById" resultMap="EmployeesMap">
+        select
+          id, employeeNo, positionObj, name, sex, birthday, schoolRecord, employeeDesc
+        from hrm.employees
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EmployeesMap">
+        select
+          id, employeeNo, positionObj, name, sex, birthday, schoolRecord, employeeDesc
+        from hrm.employees
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EmployeesMap">
+        select
+          id, employeeNo, positionObj, name, sex, birthday, schoolRecord, employeeDesc
+        from hrm.employees
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="employeeno != null and employeeno != ''">
+                and employeeNo = #{employeeno}
+            </if>
+            <if test="positionobj != null and positionobj != ''">
+                and positionObj = #{positionobj}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="birthday != null and birthday != ''">
+                and birthday = #{birthday}
+            </if>
+            <if test="schoolrecord != null and schoolrecord != ''">
+                and schoolRecord = #{schoolrecord}
+            </if>
+            <if test="employeedesc != null and employeedesc != ''">
+                and employeeDesc = #{employeedesc}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hrm.employees(employeeNo, positionObj, name, sex, birthday, schoolRecord, employeeDesc)
+        values (#{employeeno}, #{positionobj}, #{name}, #{sex}, #{birthday}, #{schoolrecord}, #{employeedesc})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hrm.employees
+        <set>
+            <if test="employeeno != null and employeeno != ''">
+                employeeNo = #{employeeno},
+            </if>
+            <if test="positionobj != null and positionobj != ''">
+                positionObj = #{positionobj},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                birthday = #{birthday},
+            </if>
+            <if test="schoolrecord != null and schoolrecord != ''">
+                schoolRecord = #{schoolrecord},
+            </if>
+            <if test="employeedesc != null and employeedesc != ''">
+                employeeDesc = #{employeedesc},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hrm.employees where id = #{id}
+    </delete>
+
+</mapper>

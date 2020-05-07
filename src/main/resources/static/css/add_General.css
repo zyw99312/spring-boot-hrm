@@ -1,0 +1,46 @@
+@charset "UTF-8";
+	body{
+		background: #393D49;
+		color: #fff;
+	}
+
+
+	select{
+		padding-left: 10px;
+		width: 205px;
+		border-radius: 7px;
+		font-size: 12pt;
+		height: 25px;
+		margin-top: 10px;
+	}
+	select:hover{
+		background: #aac5e7;
+	}
+ 	.add_box{
+		position: fixed;
+		top: 50%;
+		left:50%;
+		-webkit-transform: translate(-50%,-50%);
+	}
+	#submit{
+		background: #2F4056;
+		width: 85px;
+	}
+	#submit:hover{
+		background: #aac5e7;
+	}
+	input{
+		height: 25px;
+		margin-top: 10px;
+		border-radius: 7px;
+		font-size: 12pt;
+		padding-left: 10px;
+	}
+	h1{
+		text-align: center;
+		margin-top: 170px;
+		color: #fff;
+	}
+	p{
+		color: #fff;
+	}

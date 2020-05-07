@@ -1,0 +1,22 @@
+body{    background: #393D49;}
+
+/*.login{    height: 300px;width: 450px;margin-top: 15%;margin-left: 35%;border:3px solid #4f483f;border-radius:10px;background: #9F9F9F;opacity: 0.7;}
+*/
+.login{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 300px;
+  width: 450px;
+  -webkit-transform: translate(-50%,-50%);
+  border:3px solid #4f483f;border-radius:10px;background: #9F9F9F;opacity: 0.7;
+}
+label{margin-left: 25%;}
+
+#username{margin-top: 50px; border-radius: 5px; width: 200px; height: 25px;}
+
+#password{width: 200px;height: 25px;border-radius: 5px;}
+
+.login-label{ font-family: '华文楷体', serif;font-size: 20pt;margin: 0px 0px 0px 43%;line-height: 50px;}
+
+#submit{width: 150px;height: 35px;border-radius: 5px;margin-top: 30px;margin-left: 37%}

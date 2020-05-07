@@ -1,0 +1,13 @@
+@charset "UTF-8";
+	body{
+ 		background-color: transparent;
+		position: absolute;
+		top: 50%;
+		left:50%;
+		-webkit-transform: translate(-50%,-50%);
+		color: #fff;
+	}
+	a{
+		color: #fff;
+		font-size: 20pt;
+	}

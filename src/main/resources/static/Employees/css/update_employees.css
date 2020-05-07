@@ -1,0 +1,26 @@
+
+body{
+    background: #393D49;
+    color: #fff;
+}
+.submit{
+    margin-left: 60px;
+}
+form{
+    margin-left: -150px;
+    padding-top: 125px;
+}
+.update_box{
+    width: 850px;
+    height: 500px;
+    border: 2px #aac5e7 solid;
+    border-radius: 5px;
+}
+.lable{
+    font-size: 13pt;
+    color:#fff;
+    margin-left:-650px;
+}
+.btn{
+    margin-left: -20px;
+}

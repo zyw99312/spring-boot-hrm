@@ -1,0 +1,24 @@
+select{
+    width: 145px;
+    border-radius: 5px;
+    font-size: 10pt;
+}
+select:hover{
+    color: #aac5e7;
+}
+.add_box{
+    width: 850px;
+    height: 500px;
+    border: 2px #aac5e7 solid;
+    border-radius: 5px;
+}
+form{
+    padding-left: 300px;
+    padding-top: 200px;
+}
+.lable{
+    font-size: 13pt;
+    color:#fff;
+    margin-left:250px;
+    margin-top: 100px;
+}
